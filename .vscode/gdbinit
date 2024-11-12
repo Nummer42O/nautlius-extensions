@@ -1,0 +1,8 @@
+set $_exitcode = -1
+set breakpoint pending on
+run
+if $_exitcode == -1
+  backtrace
+else
+  quit
+end

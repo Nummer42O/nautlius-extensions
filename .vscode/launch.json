@@ -1,0 +1,23 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch Nautilus",
+      "type": "f5anything",
+      "request": "launch",
+      "preLaunchTask": "CMake: build",
+
+      // "preLaunchTask": "Install for user",
+      "command": "nautilus --quit; nautilus ~"
+    },
+    {
+      "name": "Debug Nautilus",
+      "type": "f5anything",
+      "request": "launch",
+      "preLaunchTask": "CMake: build",
+
+      // "preLaunchTask": "Install for user",
+      "command": "nautilus --quit; gdb -q -x ${workspaceFolder}/.vscode/gdbinit --args nautilus ~",
+    }
+  ]
+}

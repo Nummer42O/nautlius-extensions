@@ -1,0 +1,58 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+    {
+      "type": "cmake",
+      "label": "CMake: build",
+      "detail": "CMake template build task",
+
+      "command": "build",
+
+      "presentation": {
+        "echo": false,
+        "reveal": "silent",
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "type": "shell",
+      "label": "Clear build directory",
+      "detail": "Provide a clean start for building",
+
+      "command": "(shopt -s dotglob; rm -rf ${workspaceFolder}/build/*)",
+
+      "presentation": {
+        "echo": false,
+        "reveal": "silent",
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": false
+      },
+      "problemMatcher": []
+    },
+    {
+      "type": "cmake",
+      "label": "CMake: reconfigure",
+      "detail": "Reconfigure after build directory reset",
+
+      "command": "configure",
+      "dependsOn": "Clear build directory",
+
+      "presentation": {
+        "echo": false,
+        "reveal": "silent",
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": false
+      },
+      "problemMatcher": []
+    }
+  ]
+}
