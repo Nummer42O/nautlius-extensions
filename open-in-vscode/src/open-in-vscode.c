@@ -156,6 +156,8 @@ GList *menuProviderGetCurrentFolder(
   char *command = makeBaseCommand();
 
   char *absoluteDirPath = g_file_get_path(nautilus_file_info_get_location(currentFolder));
+  if (!absoluteDirPath) return NULL;
+
   command = addToCommand(command, absoluteDirPath);
   g_free(absoluteDirPath);
 
