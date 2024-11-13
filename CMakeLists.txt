@@ -3,12 +3,35 @@ project(nautilus-extensions
   LANGUAGES C
 )
 
+
+function(add_extension EXTENSION_NAME)
+  add_subdirectory(${EXTENSION_NAME})
+
+  get_property(SUBDIR_TARGETS
+    DIRECTORY ${EXTENSION_NAME}
+    PROPERTY BUILDSYSTEM_TARGETS
+  )
+  message(STATUS "subdir targets for ${EXTENSION_NAME}: ${SUBDIR_TARGETS}")
+  list(APPEND ENABLED_EXTENSIONS "${SUBDIR_TARGETS}")
+
+  set(ENABLED_EXTENSIONS "${ENABLED_EXTENSIONS}" PARENT_SCOPE)
+endfunction()
+
+
+option(ENABLE_ALL_BY_DEFAULT "Enable all extensions by default." ON)
+message(STATUS "ENABLE_ALL_BY_DEFAULT: ${ENABLE_ALL_BY_DEFAULT}")
+
 find_package(PkgConfig 0.29 REQUIRED)
 pkg_check_modules(
   NAUTILUSEXT
   IMPORTED_TARGET
     libnautilus-extension
   REQUIRED
+)
+pkg_get_variable(
+  NAUTILUS_EXTENSION_INSTALL_DIR
+  libnautilus-extension
+  extensiondir
 )
 pkg_check_modules(
   GTK
@@ -27,7 +50,24 @@ link_libraries(
   ${GTK_LIBRARIES}
 )
 
-add_subdirectory(open-in-vscode)
+add_extension(open-in-vscode ENABLED_EXTENSIONS)
 
-# TODO: configure?
-# TODO: install, uninstall
+message(STATUS "ENABLED_EXTENSIONS: ${ENABLED_EXTENSIONS}")
+
+install(
+  TARGETS "${ENABLED_EXTENSIONS}"
+  CONFIGURATIONS Release
+  DESTINATION ${NAUTILUS_EXTENSION_INSTALL_DIR}
+)
+
+if (NOT TARGET uninstall)
+  configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake
+    IMMEDIATE @ONLY
+  )
+
+  add_custom_target(uninstall
+    COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake
+  )
+endif()
