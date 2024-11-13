@@ -4,6 +4,8 @@ project(nautilus-extensions
 )
 
 
+# utility function to add extensions to the assortment
+# use like add_subdirectory
 function(add_extension EXTENSION_NAME)
   add_subdirectory(${EXTENSION_NAME})
 
@@ -11,16 +13,19 @@ function(add_extension EXTENSION_NAME)
     DIRECTORY ${EXTENSION_NAME}
     PROPERTY BUILDSYSTEM_TARGETS
   )
-  message(STATUS "subdir targets for ${EXTENSION_NAME}: ${SUBDIR_TARGETS}")
+  message(DEBUG "subdir targets for ${EXTENSION_NAME}: ${SUBDIR_TARGETS}")
   list(APPEND ENABLED_EXTENSIONS "${SUBDIR_TARGETS}")
 
   set(ENABLED_EXTENSIONS "${ENABLED_EXTENSIONS}" PARENT_SCOPE)
 endfunction()
 
 
+# option to enable/disable all extensions at once
 option(ENABLE_ALL_BY_DEFAULT "Enable all extensions by default." ON)
 message(STATUS "ENABLE_ALL_BY_DEFAULT: ${ENABLE_ALL_BY_DEFAULT}")
 
+
+# aquisition of globally required resources
 find_package(PkgConfig 0.29 REQUIRED)
 pkg_check_modules(
   NAUTILUSEXT
@@ -41,6 +46,7 @@ pkg_check_modules(
   REQUIRED
 )
 
+# linking of globally required resources
 include_directories(
   ${NAUTILUSEXT_INCLUDE_DIRS}
   ${GTK_INCLUDE_DIRS}
@@ -50,16 +56,23 @@ link_libraries(
   ${GTK_LIBRARIES}
 )
 
+
+# inclusion of actual extensions
+# add future extensions here
 add_extension(open-in-vscode ENABLED_EXTENSIONS)
 
-message(STATUS "ENABLED_EXTENSIONS: ${ENABLED_EXTENSIONS}")
 
+message(NOTICE "ENABLED_EXTENSIONS: ${ENABLED_EXTENSIONS}")
+
+
+# make install target for release builds
 install(
   TARGETS "${ENABLED_EXTENSIONS}"
   CONFIGURATIONS Release
   DESTINATION ${NAUTILUS_EXTENSION_INSTALL_DIR}
 )
 
+# make uninstall target
 if (NOT TARGET uninstall)
   configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in
