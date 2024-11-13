@@ -128,6 +128,11 @@ GList *menuProviderGetSelectedItems(NautilusMenuProvider *provider, GtkWidget *w
     }
   }
 
+  if (nrOfFiles == 0)
+  {
+    return NULL;
+  }
+
   if (nrOfFiles == 1)
   {
     strcpy(buttonLabel, "Open file in VSCode");
