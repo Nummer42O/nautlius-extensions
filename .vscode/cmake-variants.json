@@ -1,0 +1,37 @@
+{
+  "buildType": {
+    "default": "debug",
+    "description": "CMake build type",
+    "choices": {
+      "debug": {
+        "short": "Debug",
+        "long": "Use CMAKE_BUILD_TYPE=Debug",
+        "buildType": "Debug"
+      },
+      "release": {
+        "short": "Release",
+        "long": "Use CMAKE_BUILD_TYPE=Release",
+        "buildType": "Release"
+      }
+    }
+  },
+  "compileOpenInVSCode": {
+    "default": "with",
+    "choices": {
+      "with": {
+        "short": "With open-in-vscode",
+        "long": "Enable open-in-vscode target",
+        "settings": {
+          "ENABLE_OPEN_IN_VSCODE": true
+        }
+      },
+      "without": {
+        "short": "Without open-in-vscode",
+        "long": "Disable open-in-vscode target",
+        "settings": {
+          "ENABLE_OPEN_IN_VSCODE": false
+        }
+      }
+    }
+  }
+}
