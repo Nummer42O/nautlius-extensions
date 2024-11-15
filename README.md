@@ -4,6 +4,6 @@ Some for fun, some because I needed them. Enjoy.
 # TODO
 ## open-in-vscode
 
-- [ ] add directory multi open
+- [x] add directory multi open
 - [ ] **BUG** Fix seg fault when selection items in trash
   - currently can't reproduce
