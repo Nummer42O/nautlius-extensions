@@ -4,4 +4,4 @@ Some for fun, some because I needed them. Enjoy.
 # TODO
 ## open-in-vscode
 
-- [ ] add directory multi open
+- [x] add directory multi open
