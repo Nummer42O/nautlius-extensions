@@ -90,7 +90,7 @@ char *addToCommand(char *command, const char *path)
   return newCommand;
 }
 
-void handleMimeType(const char *mimeType, char **command, GList *files, size_t *nrOfMimeType) {
+void handleMimeType(const char *mimeType, GList *files, char **command, size_t *nrOfMimeType) {
   for (GList *element = files; element != NULL; element = element->next) {
     NautilusFileInfo *file = element->data;
 
@@ -108,32 +108,29 @@ void handleMimeType(const char *mimeType, char **command, GList *files, size_t *
   }
 }
 
-char *buildButtonLabel(size_t nrOfDirs, size_t nrOfFiles) {
-  char *text = malloc(32ul);
-
-  sprintf(text, "Open");
+void buildButtonLabel(size_t nrOfDirs, size_t nrOfFiles, char** buttonLabel) {
+  strcpy(buttonLabel, "Open");
 
   if (nrOfDirs != 0) {
     if (nrOfDirs == 1) {
-      sprintf(text, "%s dir", text);
+      sprintf(buttonLabel, "%s dir", buttonLabel);
     } else {
-      sprintf(text, "%s %ld dirs", text, nrOfDirs);
+      sprintf(buttonLabel, "%s %ld dirs", buttonLabel, nrOfDirs);
     }
     if (nrOfFiles != 0) {
-      sprintf(text, "%s and", text);
+      sprintf(buttonLabel, "%s and", buttonLabel);
     }
   }
 
   if (nrOfFiles != 0) {
     if (nrOfFiles == 1) {
-      sprintf(text, "%s file", text);
+      sprintf(buttonLabel, "%s file", buttonLabel);
     } else {
-      sprintf(text, "%s %ld files", text, nrOfFiles);
+      sprintf(buttonLabel, "%s %ld files", buttonLabel, nrOfFiles);
     }
   }
 
-  sprintf(text, "%s in VSCode", text);
-  return text;
+  sprintf(buttonLabel, "%s in VSCode", buttonLabel);
 }
 
 GList *menuProviderGetSelectedItems(NautilusMenuProvider *provider, GtkWidget *window, GList *files)
@@ -156,19 +153,19 @@ GList *menuProviderGetSelectedItems(NautilusMenuProvider *provider, GtkWidget *w
     return menuProviderAddItem(window, command, DEFAULT_BUTTON_LABEL);
   }
 
-  char buttonLabel[32];
+  char buttonLabel[64];
   size_t nrOfDirs = 0ul;
   size_t nrOfFiles = 0ul;
 
-  handleMimeType("inode/*", &command, files, &nrOfDirs);
-  handleMimeType("text/*", &command, files, &nrOfFiles);
+  handleMimeType("inode/*", files, &command, &nrOfDirs);
+  handleMimeType("text/*", files, &command, &nrOfFiles);
 
   if (nrOfDirs == 0 && nrOfFiles == 0)
   {
     return NULL;
   }
 
-  sprintf(buttonLabel, "%s", buildButtonLabel(nrOfDirs, nrOfFiles));
+  buildButtonLabel(nrOfDirs, nrOfFiles, &buttonLabel);
 
   return menuProviderAddItem(window, command, buttonLabel);
 }
