@@ -90,6 +90,49 @@ char *addToCommand(char *command, const char *path)
   return newCommand;
 }
 
+void handleMimeType(const char *mimeType, GList *files, char **command, size_t *nrOfMimeType) {
+  for (GList *element = files; element != NULL; element = element->next) {
+    NautilusFileInfo *file = element->data;
+
+    if (nautilus_file_info_is_mime_type(file, mimeType))
+    {
+      char *absoluteFilePath = g_file_get_path(nautilus_file_info_get_location(file));
+      if (!absoluteFilePath) { return; }
+
+      *command = addToCommand(*command, absoluteFilePath);
+      assert(*command);
+      ++(*nrOfMimeType);
+
+      g_free(absoluteFilePath);
+    }
+  }
+}
+
+void buildButtonLabel(size_t nrOfDirs, size_t nrOfFiles, char** buttonLabel) {
+  strcpy(buttonLabel, "Open");
+
+  if (nrOfDirs != 0) {
+    if (nrOfDirs == 1) {
+      sprintf(buttonLabel, "%s dir", buttonLabel);
+    } else {
+      sprintf(buttonLabel, "%s %ld dirs", buttonLabel, nrOfDirs);
+    }
+    if (nrOfFiles != 0) {
+      sprintf(buttonLabel, "%s and", buttonLabel);
+    }
+  }
+
+  if (nrOfFiles != 0) {
+    if (nrOfFiles == 1) {
+      sprintf(buttonLabel, "%s file", buttonLabel);
+    } else {
+      sprintf(buttonLabel, "%s %ld files", buttonLabel, nrOfFiles);
+    }
+  }
+
+  sprintf(buttonLabel, "%s in VSCode", buttonLabel);
+}
+
 GList *menuProviderGetSelectedItems(NautilusMenuProvider *provider, GtkWidget *window, GList *files)
 {
   if (files == NULL)
@@ -110,37 +153,19 @@ GList *menuProviderGetSelectedItems(NautilusMenuProvider *provider, GtkWidget *w
     return menuProviderAddItem(window, command, DEFAULT_BUTTON_LABEL);
   }
 
-  char buttonLabel[32];
+  char buttonLabel[64];
+  size_t nrOfDirs = 0ul;
   size_t nrOfFiles = 0ul;
 
-  for (GList *element = files; element != NULL; element = element->next) {
-    NautilusFileInfo *file = element->data;
+  handleMimeType("inode/*", files, &command, &nrOfDirs);
+  handleMimeType("text/*", files, &command, &nrOfFiles);
 
-    if (nautilus_file_info_is_mime_type(file, "text/*"))
-    {
-      char *absoluteFilePath = g_file_get_path(nautilus_file_info_get_location(file));
-
-      command = addToCommand(command, absoluteFilePath);
-      assert(command);
-      ++nrOfFiles;
-
-      g_free(absoluteFilePath);
-    }
-  }
-
-  if (nrOfFiles == 0)
+  if (nrOfDirs == 0 && nrOfFiles == 0)
   {
     return NULL;
   }
 
-  if (nrOfFiles == 1)
-  {
-    strcpy(buttonLabel, "Open file in VSCode");
-  }
-  else
-  {
-    sprintf(buttonLabel, "Open %ld files in VSCode", nrOfFiles);
-  }
+  buildButtonLabel(nrOfDirs, nrOfFiles, &buttonLabel);
 
   return menuProviderAddItem(window, command, buttonLabel);
 }
