@@ -2,22 +2,27 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch Nautilus",
-      "type": "f5anything",
+      "name": "(gdb) Launch nautilus",
+      "type": "cppdbg",
       "request": "launch",
-      "preLaunchTask": "CMake: build",
 
-      // "preLaunchTask": "Install for user",
-      "command": "nautilus --quit; nautilus ~"
-    },
-    {
-      "name": "Debug Nautilus",
-      "type": "f5anything",
-      "request": "launch",
-      "preLaunchTask": "CMake: build",
+      "preLaunchTask": "nautilus-pre-launch",
+      "program": "/usr/bin/nautilus",
+      "args": ["~"],
+      "cwd": "${fileDirname}",
+      "environment": [],
 
-      // "preLaunchTask": "Install for user",
-      "command": "nautilus --quit; gdb -q -x ${workspaceFolder}/.vscode/gdbinit --args nautilus ~",
+      "stopAtEntry": false,
+      "externalConsole": false,
+      "MIMode": "gdb",
+
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
     }
   ]
 }

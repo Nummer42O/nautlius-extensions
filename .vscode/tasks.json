@@ -69,6 +69,31 @@
         "clear": false
       },
       "problemMatcher": []
+    },
+
+    {
+      "type": "shell",
+      "label": "stop-nautilus",
+
+      "command": "nautilus -q; true",
+
+      "presentation": {
+        "echo": false,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "nautilus-pre-launch",
+      "dependsOn": [
+        "CMake: build",
+        "stop-nautilus"
+      ],
+      "dependsOrder": "sequence"
     }
   ]
 }
