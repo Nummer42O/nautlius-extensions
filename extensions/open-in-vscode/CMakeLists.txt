@@ -9,8 +9,10 @@ option(ENABLE_OPEN_IN_VSCODE
 message(DEBUG "ENABLE_OPEN_IN_VSCODE: ${ENABLE_OPEN_IN_VSCODE}")
 
 if (${ENABLE_OPEN_IN_VSCODE})
-  add_library(open-in-vscode SHARED)
+  add_library(open-in-vscode
+    SHARED
+      entrypoint.c
+      open-in-vscode.c
+  )
   target_include_directories(open-in-vscode PRIVATE src)
-
-  add_subdirectory(src)
 endif()

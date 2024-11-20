@@ -53,6 +53,47 @@
         "clear": false
       },
       "problemMatcher": []
+    },
+    {
+      "type": "shell",
+      "label": "Install as simlink",
+      "detail": "Reconfigure after build directory reset",
+
+      "command": "pkexec ln -sf ${workspaceFolder}/build/extensions/open-in-vscode/libopen-in-vscode.so /usr/lib/x86_64-linux-gnu/nautilus/extensions-3.0",
+
+      "presentation": {
+        "echo": false,
+        "reveal": "silent",
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": false
+      },
+      "problemMatcher": []
+    },
+
+    {
+      "type": "shell",
+      "label": "stop-nautilus",
+
+      "command": "nautilus -q; true",
+
+      "presentation": {
+        "echo": false,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "nautilus-pre-launch",
+      "dependsOn": [
+        "CMake: build",
+        "stop-nautilus"
+      ],
+      "dependsOrder": "sequence"
     }
   ]
 }
