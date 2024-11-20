@@ -122,7 +122,7 @@ void handleMimeType(const char *mimeType, GList *files, char **command, size_t *
   }
 }
 
-void buildButtonLabel(size_t nrOfDirs, size_t nrOfFiles, char** buttonLabel)
+void buildButtonLabel(size_t nrOfDirs, size_t nrOfFiles, char *buttonLabel)
 {
   log_trace(
     "[ENTER] nrOfDirs: %lu nrOfFiles: %lu buttonLabel: %p\n",
@@ -190,7 +190,7 @@ GList *menuProviderGetSelectedItems(NautilusMenuProvider *provider, GtkWidget *w
     return NULL;
   }
 
-  buildButtonLabel(nrOfDirs, nrOfFiles, &buttonLabel);
+  buildButtonLabel(nrOfDirs, nrOfFiles, buttonLabel);
 
   return menuProviderAddItem(window, command, buttonLabel);
 }
