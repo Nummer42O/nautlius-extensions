@@ -1,4 +1,5 @@
 #include "open-in-vscode.h"
+#include "logging.h"
 
 #include <nautilus-extension.h>
 #include <gtk/gtk.h>
@@ -15,6 +16,8 @@
 
 void openInVSCodeOpenFiles(NautilusMenuItem *menuItem, gpointer window)
 {
+  log_trace("[ENTER] menuItem: %p window: %p\n", menuItem, window);
+
   if (!menuItem)
   {
     return;
@@ -23,7 +26,6 @@ void openInVSCodeOpenFiles(NautilusMenuItem *menuItem, gpointer window)
   const char *command = g_object_get_data(
     G_OBJECT(menuItem), COMMAND_DATA_FIELD
   );
-  printf("command: %s\n", command);
 
   int exitCode = system(command);
   if (exitCode != 0)
@@ -41,6 +43,8 @@ void openInVSCodeOpenFiles(NautilusMenuItem *menuItem, gpointer window)
 
 GList *menuProviderAddItem(GtkWidget *window, char *command, const char *buttonLabel)
 {
+  log_trace("[ENTER] window: %p command: \"%s\" buttonLabel: \"%s\"\n", window, command, buttonLabel);
+
   if (!command) return NULL;
 
   NautilusMenuItem *menuItem = nautilus_menu_item_new(
@@ -65,6 +69,8 @@ GList *menuProviderAddItem(GtkWidget *window, char *command, const char *buttonL
 
 char *makeBaseCommand()
 {
+  log_trace("[ENTER]\n");
+
   char *command = malloc(11ul);
   assert(command && "Failed to allocate memory for base command.");
 
@@ -75,6 +81,8 @@ char *makeBaseCommand()
 
 char *addToCommand(char *command, const char *path)
 {
+  log_trace("[ENTER] command: \"%s\" path: \"%s\"\n", command, path);
+
   size_t \
     originalSize = strlen(command),
     pathSize = strlen(path);
@@ -90,7 +98,13 @@ char *addToCommand(char *command, const char *path)
   return newCommand;
 }
 
-void handleMimeType(const char *mimeType, GList *files, char **command, size_t *nrOfMimeType) {
+void handleMimeType(const char *mimeType, GList *files, char **command, size_t *nrOfMimeType)
+{
+  log_trace(
+    "[ENTER] mimeType: \"%s\" files: %p command: \"%p\", nrOfMimeType: %p\n",
+    mimeType, files, command, nrOfMimeType
+  );
+
   for (GList *element = files; element != NULL; element = element->next) {
     NautilusFileInfo *file = element->data;
 
@@ -108,7 +122,13 @@ void handleMimeType(const char *mimeType, GList *files, char **command, size_t *
   }
 }
 
-void buildButtonLabel(size_t nrOfDirs, size_t nrOfFiles, char** buttonLabel) {
+void buildButtonLabel(size_t nrOfDirs, size_t nrOfFiles, char** buttonLabel)
+{
+  log_trace(
+    "[ENTER] nrOfDirs: %lu nrOfFiles: %lu buttonLabel: %p\n",
+    nrOfDirs, nrOfFiles, buttonLabel
+  );
+
   strcpy(buttonLabel, "Open");
 
   if (nrOfDirs != 0) {
@@ -135,6 +155,11 @@ void buildButtonLabel(size_t nrOfDirs, size_t nrOfFiles, char** buttonLabel) {
 
 GList *menuProviderGetSelectedItems(NautilusMenuProvider *provider, GtkWidget *window, GList *files)
 {
+  log_trace(
+    "[ENTER] provider: %p window: %p files: %p\n",
+    provider, window, files
+  );
+
   if (files == NULL)
   {
     return NULL;
@@ -176,6 +201,11 @@ GList *menuProviderGetCurrentFolder(
   NautilusFileInfo *currentFolder
 )
 {
+  log_trace(
+    "[ENTER] provider: %p window: %p currentFolder: %p\n",
+    provider, window, currentFolder
+  );
+
   assert(currentFolder);
 
   char *command = makeBaseCommand();
@@ -191,6 +221,8 @@ GList *menuProviderGetCurrentFolder(
 
 void OpenInVSCodeMenuProviderInterfaceInit(gpointer interfacePointer, gpointer)
 {
+  log_trace("[ENTER] interfacePointer: %p\n", interfacePointer);
+
   NautilusMenuProviderInterface* interface = interfacePointer;
   interface->get_file_items = menuProviderGetSelectedItems;
   interface->get_background_items = menuProviderGetCurrentFolder;

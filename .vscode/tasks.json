@@ -59,7 +59,7 @@
       "label": "Install as simlink",
       "detail": "Reconfigure after build directory reset",
 
-      "command": "pkexec ln -sf ${workspaceFolder}/build/open-in-vscode/libopen-in-vscode.so /usr/lib/x86_64-linux-gnu/nautilus/extensions-3.0",
+      "command": "pkexec ln -sf ${workspaceFolder}/build/extensions/open-in-vscode/libopen-in-vscode.so /usr/lib/x86_64-linux-gnu/nautilus/extensions-3.0",
 
       "presentation": {
         "echo": false,
