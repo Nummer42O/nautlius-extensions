@@ -13,6 +13,7 @@ if (${ENABLE_OPEN_IN_VSCODE})
     SHARED
       entrypoint.c
       open-in-vscode.c
+      utilities.c
   )
   target_include_directories(open-in-vscode PRIVATE src)
 endif()

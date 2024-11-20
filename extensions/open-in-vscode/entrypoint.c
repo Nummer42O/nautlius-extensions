@@ -11,7 +11,7 @@ void nautilus_module_initialize(
   GTypeModule *module
 )
 {
-  printf("Initializing OpenInVSCode\n");
+  puts("Initializing OpenInVSCode\n");
 
   static const GTypeInfo typeInfo = {
     sizeof(OpenInVSCodeExtensionClass),
@@ -37,7 +37,7 @@ void nautilus_module_initialize(
 
 
   static const GInterfaceInfo menuProviderInterfaceInfo = {
-    OpenInVSCodeMenuProviderInterfaceInit,
+    oivsc_menuProviderInterfaceInit,
     (GInterfaceFinalizeFunc)(NULL),
     (gpointer)(NULL)
   };
@@ -50,7 +50,7 @@ void nautilus_module_initialize(
 
 void nautilus_module_shutdown()
 {
-  printf("Shutting down OpenInVSCode\n");
+  puts("Shutting down OpenInVSCode\n");
 }
 
 void nautilus_module_list_types(
