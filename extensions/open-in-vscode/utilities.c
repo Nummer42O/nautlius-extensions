@@ -7,7 +7,7 @@
 
 char *oivsc_makeBaseCommand()
 {
-  log_trace("[ENTER]\n");
+  nelog_trace("[ENTER]\n");
 
   char *command = malloc(11ul);
   assert(command && "Failed to allocate memory for base command.");
@@ -19,7 +19,7 @@ char *oivsc_makeBaseCommand()
 
 char *oivsc_addToCommand(char *command, const char *path)
 {
-  log_trace("[ENTER] command: \"%s\" path: \"%s\"\n", command, path);
+  nelog_trace("[ENTER] command: \"%s\" path: \"%s\"\n", command, path);
 
   size_t originalSize = strlen(command);
   size_t totalSize = originalSize + strlen(path) + 4;
@@ -34,7 +34,7 @@ char *oivsc_addToCommand(char *command, const char *path)
 
 char *oivsc_selectByMimeType(GList *files, const char *mimeType, char *command, size_t *o_nrSelectedElements)
 {
-  log_trace(
+  nelog_trace(
     "[ENTER] files: %p mimeType: \"%s\" command: \"%p\", o_nrSelectedElements: %p\n",
     files, mimeType, command, o_nrSelectedElements
   );
@@ -61,7 +61,7 @@ char *oivsc_selectByMimeType(GList *files, const char *mimeType, char *command, 
 
 void oivsc_makeButtonLabel(size_t nrOfDirs, size_t nrOfFiles, char *o_buttonLabel)
 {
-  log_trace(
+  nelog_trace(
     "[ENTER] nrOfDirs: %lu nrOfFiles: %lu o_buttonLabel: %p\n",
     nrOfDirs, nrOfFiles, o_buttonLabel
   );

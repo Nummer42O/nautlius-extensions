@@ -16,7 +16,7 @@
 
 void oivsc_launchVSCode(NautilusMenuItem *menuItem, gpointer window)
 {
-  log_trace("[ENTER] menuItem: %p window: %p\n", menuItem, window);
+  nelog_trace("[ENTER] menuItem: %p window: %p\n", menuItem, window);
 
   if (!menuItem)
   {
@@ -43,7 +43,7 @@ void oivsc_launchVSCode(NautilusMenuItem *menuItem, gpointer window)
 
 GList *oivsc_menuProviderAddItem(GtkWidget *window, char *command, const char *buttonLabel)
 {
-  log_trace("[ENTER] window: %p command: \"%s\" buttonLabel: \"%s\"\n", window, command, buttonLabel);
+  nelog_trace("[ENTER] window: %p command: \"%s\" buttonLabel: \"%s\"\n", window, command, buttonLabel);
 
   if (!command) return NULL;
 
@@ -69,7 +69,7 @@ GList *oivsc_menuProviderAddItem(GtkWidget *window, char *command, const char *b
 
 GList *oivsc_menuProviderGetSelectedItems(NautilusMenuProvider *provider, GtkWidget *window, GList *files)
 {
-  log_trace(
+  nelog_trace(
     "[ENTER] provider: %p window: %p files: %p\n",
     provider, window, files
   );
@@ -96,7 +96,7 @@ GList *oivsc_menuProviderGetSelectedItems(NautilusMenuProvider *provider, GtkWid
 
 GList *oivsc_menuProviderGetCurrentFolder(NautilusMenuProvider *provider, GtkWidget *window, NautilusFileInfo *currentFolder)
 {
-  log_trace(
+  nelog_trace(
     "[ENTER] provider: %p window: %p currentFolder: %p\n",
     provider, window, currentFolder
   );
@@ -116,7 +116,8 @@ GList *oivsc_menuProviderGetCurrentFolder(NautilusMenuProvider *provider, GtkWid
 
 void oivsc_menuProviderInterfaceInit(gpointer interfacePointer, gpointer)
 {
-  log_trace("[ENTER] interfacePointer: %p\n", interfacePointer);
+  nelog_set_level(NELOG_TRACE);
+  nelog_trace("[ENTER] interfacePointer: %p\n", interfacePointer);
 
   NautilusMenuProviderInterface* interface = interfacePointer;
   interface->get_file_items = oivsc_menuProviderGetSelectedItems;

@@ -24,7 +24,7 @@ message(DEBUG "ENABLE_ALL_BY_DEFAULT: ${ENABLE_ALL_BY_DEFAULT}")
 option(LOGGING_USE_COLOR "Disable colors in log messages." ON)
 message(DEBUG "LOGGING_USE_COLOR: ${LOGGING_USE_COLOR}")
 if (${LOGGING_USE_COLOR})
-  set(LOGGING_USE_COLOR_MACRO "NELOGGING_USE_COLOR")
+  set(LOGGING_USE_COLOR_MACRO "NELOG_USE_COLOR")
 endif()
 
 # aquisition of globally required resources

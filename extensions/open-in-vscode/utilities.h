@@ -18,7 +18,7 @@ char *oivsc_makeBaseCommand();
  *
  * @param command Current command pointer. Will be invalid after a successful run.
  * @param path Path to the file to be opened.
- * 
+ *
  * @return Returns a pointer to the reallocated, modified command.
  */
 char *oivsc_addToCommand(
@@ -28,12 +28,12 @@ char *oivsc_addToCommand(
 
 /**
  * @brief Select files from the GList by the given mime type.
- * 
+ *
  * @param files List of NautilusFileInfo objects representing the selected items.
  * @param mimeType The mime type (pattern) to be selected. Symlinks will be dereferenced before the check.
  * @param command Current command pointer. Will be invalid if o_nrSelectedElements has incremented.
  * @param o_nrSelectedElements Number of items which got selected for matching mime type. Must be initialized.
- * 
+ *
  * @return Possibly modified command. To be safe, always assume the command parameter is invalid and use this value instead.
  */
 char *oivsc_selectByMimeType(

@@ -1,19 +1,27 @@
-#ifndef NELOGGING_H
-#define NELOGGING_H
+#ifndef NELOG_H
+#define NELOG_H
 
 
 typedef enum {
-  NELOGGING_TRACE, NELOGGING_DEBUG, NELOGGING_INFO,
-  NELOGGING_WARN, NELOGGING_ERROR, NELOGGING_FATAL,
+  NELOG_TRACE, NELOG_DEBUG, NELOG_INFO,
+  NELOG_WARN, NELOG_ERROR, NELOG_FATAL,
 
-  NELOGGING_NULL_OPT
+  NELOG_NULL_OPT
 } loglevel_t;
 
-const char *nelogging_level_to_string(
+
+static loglevel_t nelog_globalLogLevel = NELOG_NULL_OPT;
+
+
+const char *nelog_level_to_string(
   loglevel_t  logLevel
 );
 
-void nelogging_print(
+void nelog_set_level(
+  loglevel_t globalLogLevel
+);
+
+void nelog_print(
   loglevel_t  logLevel,
   const char *functionName,
   const char *printFormat,
@@ -29,26 +37,26 @@ void nelogging_print(
   #endif
 #endif // !defined(__FUNCTION_NAME__)
 
-#define nelogging_log(logLevel, ...)  \
-  if (true)                           \
-  {                                   \
-    nelogging_print(                  \
-      logLevel,                       \
-      __FUNCTION_NAME__,              \
-      __VA_ARGS__                     \
-    );                                \
+#define nelog_log(logLevel, ...)        \
+  if (logLevel >= nelog_globalLogLevel) \
+  {                                     \
+    nelog_print(                        \
+      logLevel,                         \
+      __FUNCTION_NAME__,                \
+      __VA_ARGS__                       \
+    );                                  \
   }
 
-#define log_trace(...) nelogging_print(NELOGGING_TRACE, __FUNCTION_NAME__, __VA_ARGS__)
+#define nelog_trace(...) nelog_log(NELOG_TRACE, __VA_ARGS__)
 
-#define log_debug(...) nelogging_print(NELOGGING_DEBUG, __FUNCTION_NAME__, __VA_ARGS__)
+#define nelog_debug(...) nelog_log(NELOG_DEBUG, __VA_ARGS__)
 
-#define log_info(...)  nelogging_print(NELOGGING_INFO,  __FUNCTION_NAME__, __VA_ARGS__)
+#define nelog_info(...)  nelog_log(NELOG_INFO,  __VA_ARGS__)
 
-#define log_warn(...)  nelogging_print(NELOGGING_WARN,  __FUNCTION_NAME__, __VA_ARGS__)
+#define nelog_warn(...)  nelog_log(NELOG_WARN,  __VA_ARGS__)
 
-#define log_error(...) nelogging_print(NELOGGING_ERROR, __FUNCTION_NAME__, __VA_ARGS__)
+#define nelog_error(...) nelog_log(NELOG_ERROR, __VA_ARGS__)
 
-#define log_fatal(...) nelogging_print(NELOGGING_FATAL, __FUNCTION_NAME__, __VA_ARGS__)
+#define nelog_fatal(...) nelog_log(NELOG_FATAL, __VA_ARGS__)
 
-#endif // !defined(NELOGGING_H)
+#endif // !defined(NELOG_H)
