@@ -16,7 +16,10 @@
 
 void oivsc_launchVSCode(NautilusMenuItem *menuItem, gpointer window)
 {
-  nelog_trace("[ENTER] menuItem: %p window: %p\n", menuItem, window);
+  nelog_trace(
+    "[ENTER] menuItem: %p window: %p\n",
+    menuItem, window
+  );
 
   if (!menuItem)
   {
@@ -26,6 +29,7 @@ void oivsc_launchVSCode(NautilusMenuItem *menuItem, gpointer window)
   const char *command = g_object_get_data(
     G_OBJECT(menuItem), COMMAND_DATA_FIELD
   );
+  nelog_debug("VS Code command: %s\n", command);
 
   int exitCode = system(command);
   if (exitCode != 0)
@@ -43,7 +47,10 @@ void oivsc_launchVSCode(NautilusMenuItem *menuItem, gpointer window)
 
 GList *oivsc_menuProviderAddItem(GtkWidget *window, char *command, const char *buttonLabel)
 {
-  nelog_trace("[ENTER] window: %p command: \"%s\" buttonLabel: \"%s\"\n", window, command, buttonLabel);
+  nelog_trace(
+    "[ENTER] window: %p command: \"%s\" buttonLabel: \"%s\"\n",
+    window, command, buttonLabel
+  );
 
   if (!command) return NULL;
 
@@ -53,6 +60,8 @@ GList *oivsc_menuProviderAddItem(GtkWidget *window, char *command, const char *b
     "Hello everynyan. OH MAH GAAAHD",
     NULL
   );
+  nelog_debug("menuItem: %p\n", menuItem);
+
   g_object_set_data_full(
     (GObject*)(menuItem), COMMAND_DATA_FIELD,
     command, free
