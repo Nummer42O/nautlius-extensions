@@ -48,6 +48,7 @@ const char *nelog_level_to_string(loglevel_t logLevel)
   }
 }
 
+loglevel_t nelog_globalLogLevel = NELOG_NULL_OPT;
 void nelog_set_level(loglevel_t globalLogLevel)
 {
   nelog_globalLogLevel = globalLogLevel;

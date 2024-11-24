@@ -10,7 +10,7 @@ typedef enum {
 } loglevel_t;
 
 
-static loglevel_t nelog_globalLogLevel = NELOG_NULL_OPT;
+extern loglevel_t nelog_globalLogLevel;
 
 
 const char *nelog_level_to_string(
