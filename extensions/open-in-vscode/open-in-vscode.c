@@ -21,6 +21,15 @@ void oivsc_launchVSCode(NautilusMenuItem *menuItem, gpointer window)
     menuItem, window
   );
 
+  // NautilusMenu* menu = NAUTILUS_MENU(&(menuItem->parent_instance));
+  char *label;
+  g_object_get(
+    menuItem,
+    "label", &label,
+    NULL
+  );
+  nelog_debug("Menu item label: \"%s\"\n", label);
+
   if (!menuItem)
   {
     return;
@@ -60,18 +69,18 @@ GList *oivsc_menuProviderAddItem(GtkWidget *window, char *command, const char *b
     "Hello everynyan. OH MAH GAAAHD",
     NULL
   );
-  nelog_debug("menuItem: %p\n", menuItem);
 
   g_object_set_data_full(
     (GObject*)(menuItem), COMMAND_DATA_FIELD,
     command, free
   );
 
-	g_signal_connect(
+	gulong handlerId = g_signal_connect(
     menuItem, "activate",
     G_CALLBACK(oivsc_launchVSCode),
     gtk_widget_get_toplevel(window)
   );
+  nelog_debug("created menuItem: %p and connnected activate signal with handler: %lu\n", menuItem, handlerId);
 
 	return g_list_append(NULL, menuItem);
 }
