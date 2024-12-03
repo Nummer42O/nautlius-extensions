@@ -12,6 +12,7 @@
 
 #define COMMAND_DATA_FIELD    "OpenInVSCodeCommand"
 #define DEFAULT_BUTTON_LABEL  "Open in VSCode"
+#define FUNCTION_NAME_SCOPE   "OpenInVSCode::"
 
 
 void oivsc_launchVSCode(NautilusMenuItem *menuItem, gpointer window)
@@ -54,7 +55,7 @@ void oivsc_launchVSCode(NautilusMenuItem *menuItem, gpointer window)
   }
 }
 
-GList *oivsc_menuProviderAddItem(GtkWidget *window, char *command, const char *buttonLabel)
+GList *oivsc_menuProviderAddItem(GtkWidget *window, char *command, const char *buttonLabel, const char *functionName)
 {
   nelog_trace(
     "[ENTER] window: %p command: \"%s\" buttonLabel: \"%s\"\n",
@@ -63,8 +64,6 @@ GList *oivsc_menuProviderAddItem(GtkWidget *window, char *command, const char *b
 
   if (!command) return NULL;
 
-  const char functionName[64];
-  sprintf(functionName, "OpenInVSCode::%s");
   NautilusMenuItem *menuItem = nautilus_menu_item_new(
     functionName,
     buttonLabel,
@@ -111,7 +110,7 @@ GList *oivsc_menuProviderGetSelectedItems(NautilusMenuProvider *provider, GtkWid
   char buttonLabel[64];
   oivsc_makeButtonLabel(nrOfDirs, nrOfFiles, buttonLabel);
 
-  return oivsc_menuProviderAddItem(window, command, buttonLabel);
+  return oivsc_menuProviderAddItem(window, command, buttonLabel, FUNCTION_NAME_SCOPE "openSelectedItems");
 }
 
 GList *oivsc_menuProviderGetCurrentFolder(NautilusMenuProvider *provider, GtkWidget *window, NautilusFileInfo *currentFolder)
@@ -131,7 +130,7 @@ GList *oivsc_menuProviderGetCurrentFolder(NautilusMenuProvider *provider, GtkWid
   command = oivsc_addToCommand(command, absoluteDirPath);
   g_free(absoluteDirPath);
 
-  return oivsc_menuProviderAddItem(window, command, DEFAULT_BUTTON_LABEL);
+  return oivsc_menuProviderAddItem(window, command, DEFAULT_BUTTON_LABEL, FUNCTION_NAME_SCOPE "openCurrentFolder");
 }
 
 void oivsc_menuProviderInterfaceInit(gpointer interfacePointer, gpointer)
