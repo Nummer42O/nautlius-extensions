@@ -71,10 +71,10 @@ void nelog_print(loglevel_t logLevel, const char *functionName, const char *prin
   assert(logLevelName);
 
   size_t formatSize = \
-    NELOG_TIMESTAMP_SIZE  + 3ul \
-    + strlen(logLevelName)    + 3ul \
-    + strlen(functionName)    + 2ul \
-    + strlen(printFormat)     + 1ul;
+    NELOG_TIMESTAMP_SIZE    + 3ul \
+    + strlen(logLevelName)  + 3ul \
+    + strlen(functionName)  + 2ul \
+    + strlen(printFormat)   + 1ul;
   char *concatPrintFormat = malloc(formatSize);
 
   sprintf(
