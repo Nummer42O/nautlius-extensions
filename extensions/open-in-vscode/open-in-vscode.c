@@ -22,19 +22,7 @@ void oivsc_launchVSCode(NautilusMenuItem *menuItem, gpointer window)
     menuItem, window
   );
 
-  // NautilusMenu* menu = NAUTILUS_MENU(&(menuItem->parent_instance));
-  char *label;
-  g_object_get(
-    menuItem,
-    "label", &label,
-    NULL
-  );
-  nelog_debug("Menu item label: \"%s\"\n", label);
-
-  if (!menuItem)
-  {
-    return;
-  }
+  if (!menuItem) return;
 
   const char *command = g_object_get_data(
     G_OBJECT(menuItem), COMMAND_DATA_FIELD
