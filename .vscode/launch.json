@@ -9,7 +9,7 @@
       "preLaunchTask": "nautilus-pre-launch",
       "program": "/usr/bin/nautilus",
       "args": ["~"],
-      "cwd": "${fileDirname}",
+      "cwd": "${workspaceFolder}",
       "environment": [],
 
       "stopAtEntry": false,

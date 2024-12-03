@@ -63,8 +63,10 @@ GList *oivsc_menuProviderAddItem(GtkWidget *window, char *command, const char *b
 
   if (!command) return NULL;
 
+  const char functionName[64];
+  sprintf(functionName, "OpenInVSCode::%s");
   NautilusMenuItem *menuItem = nautilus_menu_item_new(
-    "OpenInVSCode::openFiles",
+    functionName,
     buttonLabel,
     "Hello everynyan. OH MAH GAAAHD",
     NULL
